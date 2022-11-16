@@ -1,0 +1,81 @@
+class Test {
+public:
+	string mark;
+	string name;
+
+	string getMark() {
+		cout << " Yout mark : ";
+		return mark;
+	}
+	string getName() {
+		cout << " Name of subject : ";
+		return name;
+	}
+
+	void setName(string name) {
+		this->name = name;
+	}
+
+	void setMark(string mark) {
+		this->mark = mark;
+	}
+
+};
+
+class Exam : public Test {
+public:
+	string nameOfTeacher;
+
+	void Teacher(string nameOfTeacher) {
+		cout << " Your teacher : " << nameOfTeacher;
+		(nameOfTeacher == "Pedro") ? (cout << " -  this teacher is very good " << endl)
+			: (nameOfTeacher == "Alex") ? (cout << " -  this teacher is also very good " << endl)
+			: (cout << "  -  this teacher very hard " << endl);
+	}
+
+};
+
+class FinalExam : public Exam {
+public:
+	bool rating;
+
+	void Rating(bool rating) {
+		cout << " Your rating : ";
+		if (rating) {
+			cout << " Exelent " << endl;
+		}
+		else {
+			cout << " Remark " << endl;
+		}
+	}
+
+};
+
+class Trial : public FinalExam {
+public:
+	string finalResult;
+	string result;
+
+	void printToConclude() {
+		cout << " Trial over " << endl;
+
+	}
+
+};
+
+int main() {
+
+	Test test;
+	test.setName("Algebra");
+	test.setMark("0");
+	cout << test.getName() << endl;
+	cout << test.getMark() << endl;
+
+	Exam exam;
+	exam.Teacher("Pedro");
+
+	FinalExam examen;
+	examen.Rating(false);
+
+	Trial trial;
+	trial.printToConclude();

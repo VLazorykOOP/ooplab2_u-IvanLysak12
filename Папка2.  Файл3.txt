@@ -1,0 +1,388 @@
+1.
+
+	const int SIZE = 10;
+	int arr[SIZE];
+	
+
+	double sum = 0;
+	int zero = 0;
+
+	for (int i = 0; i < SIZE; i++) {
+		arr[i] = rand() % 50;
+	}
+
+	for (int i = 0; i < SIZE; i++) {
+		cout << arr[i] << "\t";
+	}
+
+	cout << endl;
+	for (int i = 0; i < SIZE; i++) {
+		if (arr[i] != 0) {
+			cout << arr[i] << "\t" ;
+		}
+		
+	}
+	cout << endl << endl;
+
+		for (int i = 0; i < SIZE; i++) {
+			sum += arr[i];
+	    }
+		sum /= SIZE-1;
+		cout << " Average : " << sum << "\t";
+		cout << endl;
+
+		for (int i = 0; i < SIZE; i++) {
+			if (arr[i] != 0) {
+				zero++;
+			}
+		}
+		cout << " Number of Not Null elements : " << zero << endl;
+--------------------------------------------------------------------------------
+
+2.
+	int rows, cols;
+	int matrix[5][5] {};
+
+	int sumRow = 0;
+	int sumCol = 0;
+
+	cout << "Input matrix size " << endl;
+	cin >> rows; 
+	cin >> cols; 
+
+
+	cout << "Input matrix elements " << endl;
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			cout << endl << endl;
+			cin >> matrix[i][j];
+		}
+	}
+	cout << endl << endl;
+
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			cout << matrix[i][j] << "\t";
+		}
+		cout << endl << endl;
+	}
+	cout << endl << endl;
+
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			sumRow += matrix[i][0];
+			sumCol += matrix[0][j];
+		}
+	}
+		cout << sumRow << endl;
+		cout << sumCol << endl;
+
+		if (sumRow == sumCol) {
+			cout << "Magic matrix" << endl;
+		}
+		else {
+			cout << " NO magic matrix" << endl;
+		}
+--------------------------------------------------------------------------------
+3.
+void fill_arr(int* arr, int size) {
+    for (int i = 0; i < size; i++) {
+        arr[i] = 1 + rand() % 3;
+    }
+}
+
+void show_arr(int* arr, int size) {
+    cout << "number of computer : " << endl;
+    for (int i = 0; i < size; i++) {
+        cout << arr[i] << "\t";
+    }
+    cout << endl;
+}
+
+
+
+void print_arr(int* Arr, int sizeb) {
+    for (int j = 0; j < sizeb; j++) {
+        Arr[j] = 1 + rand() % 3;
+    }
+    cout << endl;
+}
+
+void see_arr(int* Arr, int sizeb) {
+    cout << "my number : " << endl;
+    for (int j = 0; j < sizeb; j++) {
+        cout << Arr[j] << "\t";
+    }
+    cout << endl;
+}
+
+
+void exportnumbers(int* arr, int* Arr, int size, int sizeb) {
+    for (int i = 0; i < size; i++) {
+        
+
+            if (arr[0] == Arr[0] && arr[1] == Arr[1] && arr[2] == Arr[2]) {
+                cout << "Bingo" << endl;
+            }
+
+            else if (arr[0] == Arr[0] && arr[1] != Arr[1] && arr[2] != Arr[2]) {
+                cout << "True 1. His position 0" << endl;
+            }
+
+
+            else if (arr[0] != Arr[0] && arr[1] == Arr[1] && arr[2] != Arr[2]) {
+                cout << "True 1. His position 1" << endl;
+            }
+
+            else if (arr[0] != Arr[0] && arr[1] != Arr[1] && arr[2] == Arr[2]) {
+                cout << "True 1. His position 2" << endl;
+            }
+
+            else if (arr[0] == Arr[0] && arr[1] == Arr[1] && arr[2] != Arr[2]) {
+                cout << "True 2. His position 0 and 1" << endl;
+            }
+            else if (arr[0] == Arr[0] && arr[2] == Arr[2] && arr[1] != Arr[1]) {
+                cout << "True 2. His position 0 and 2" << endl;
+            }
+            else if (arr[0] != Arr[0] && arr[1] == Arr[1] && arr[2] == Arr[2]) {
+                cout << "True 2. His position 1 and 2" << endl;
+            }
+            else if (!(arr[0] == Arr[0] && arr[1] == Arr[1] && arr[2] == Arr[2])) {
+                cout << "True 0. In their positions" << endl;
+            }
+            else {
+                cout << "Mistake" << endl;
+            }
+
+            break;
+    }
+
+    
+}
+
+int main() {
+    srand(time(NULL));
+
+    int size = 3;
+    int sizeb = 3;
+
+    int* arr = new int[size];
+    int* Arr = new int[sizeb];
+
+
+    fill_arr(arr, size);
+    show_arr(arr, size);
+
+    print_arr(Arr, sizeb);
+    see_arr(Arr, sizeb);
+
+
+    exportnumbers(arr, Arr, size, sizeb);
+
+
+    
+
+    delete[]arr;
+    delete[]Arr;
+    return 0;
+}
+
+--------------------------------------------------------------------------------
+4.
+#include <iostream>
+#include <ctime>
+#include <string>
+#include <conio.h>
+#include <Windows.h>
+using namespace std;
+
+
+
+int main() {
+    SetConsoleCP(1251);
+
+    SetConsoleOutputCP(1251);
+
+    char l[67] = "a b c d e f g h i g k l m n o p q r s t u v w x y z";
+    char l1[33][6] = { ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-","...-", ".--", "-..-", "-.--", "--.." };
+    char l2[200], res[200][6];
+    int n = 0;
+
+    cout << " Input text : ";
+    gets_s(l2);
+
+    for (int i = 0; i < strlen(l2); i++)for (int j = 0; j < 66; j++) {
+        if (l2[i] == l[j]) {
+            if (j < 33) {
+                for (int k = 0; k < strlen(l1[j]); k++) {
+                    if (k == strlen(l1[j]) - 1)res[n][k + 1] = '\0';
+                    res[n][k] = l1[j][k];
+                }
+            }
+            else {
+                for (int k = 0; k < strlen(l1[j - 33]); k++)res[n][k] = l1[j - 33][k];
+                for (int k = 0; k < strlen(l1[j - 33]); k++) {
+                    if (k == strlen(l1[j - 33]) - 1)res[n][k + 1] = '\0';
+                    res[n][k] = l1[j - 33][k];
+                }
+            }
+            n++;
+        }
+    }
+    for (int j = 0; j < n; j++) {
+        for (int i = 0; i < n; i++) {
+            if (res[j][i] == '*') {
+                Beep(2216, 106);
+                cout << res[j][i];
+            }
+            else if (res[j][i] == '-') {
+                Beep(2216, 233);
+                cout << res[j][i];
+            }
+        }
+        cout << " ";
+    }
+}
+---------------------------------------------------------------------------------------------------------
+#include <iostream>
+#include <conio.h>
+#include <cstring>
+ 
+using namespace std;
+void coding(char);//функция кодирования
+void decoding(char*);//функция декодирования
+void createstruck(void);//функция заполнения струкртуры буквами и кодами
+ 
+ 
+struct coder{
+    char letter;
+    char *code;
+};
+ 
+coder upDown[27];
+ 
+ 
+int main()
+{
+    createstruck();
+    char cSourceSt[250];
+    cout<<"Vvedite Stroku\n";
+    cin.getline(cSourceSt,250,'\n');
+ 
+    
+    
+    
+    if(((*(cSourceSt)) == '.') || ((*(cSourceSt)) == '-'))
+    {
+        decoding(cSourceSt);
+    }
+    else{
+        for (int i=0; *(cSourceSt+i)!='\0';i++)
+            coding(*(cSourceSt+i));
+    }
+    
+    getch();
+ 
+    return 0;
+}
+ 
+void coding(char sourceSt)
+{
+    if(sourceSt == ' ')
+    {
+        cout<<"   ";
+    }
+    else{
+        if(isdigit(sourceSt))
+        {
+            if(((int)(sourceSt) <= 53))
+            {
+                for(int i=49; i<=int(sourceSt); i++)
+                    cout<<".";
+                for(int i=1; i<=53-int(sourceSt); i++)
+                    cout<<"-";
+            }
+            if(((int)sourceSt>53)){
+                for(int i=53; i<int(sourceSt); i++)
+                    cout<<"-";
+ 
+                for(int i=1; i<=58-int(sourceSt); i++)
+                    cout<<".";
+            }
+        }else{
+            for(int i=0; i<=26; i++){
+                if(upDown[i].letter == toupper(sourceSt)){
+                    cout<<upDown[i].code;
+                    break;
+                }
+            }
+        }
+        cout<<" ";
+    }
+}
+ 
+ 
+void decoding(char *stSource)
+{
+    int j=0;
+    char *temp;
+    temp = new char [128];
+    
+    for (int i=0; *(stSource+i)!='\0';i++)
+    {
+        if(*(stSource+i)!=' ')
+        {
+            char buf = *(stSource+i);
+            temp[j]=buf;
+            j++;
+        }
+        else{
+            temp[j]='\0';
+            //cout<<temp;
+            for(int i=1;i<=26;i++)
+            {
+                if(strcmp(upDown[i].code,temp)==0)
+                {
+                    cout<<upDown[i].letter<<endl;
+                }
+            }
+            j=0;
+        }
+    }
+}
+ 
+void createstruck(){
+    //заполнение струкртуpы буквами
+    for(int i=65; i<=90; i++)
+        upDown[i-65+1].letter = (char)i;
+ 
+    upDown[1].code =".-";
+    upDown[2].code ="-...";
+    upDown[3].code ="-.-.";
+    upDown[4].code ="-..";
+    upDown[5].code =".";
+    upDown[6].code ="..-.";
+    upDown[7].code ="--.";
+    upDown[8].code ="....";
+    upDown[9].code="..";
+    upDown[10].code=".---";
+    upDown[11].code="-.-";
+    upDown[12].code=".-..";
+    upDown[13].code="--";
+    upDown[14].code="-.";
+    upDown[15].code="---";
+    upDown[16].code=".--.";
+    upDown[17].code="--.-";
+    upDown[18].code = ".-.";
+    upDown[19].code = "...";
+    upDown[20].code = "-";
+    upDown[21].code = "..-";
+    upDown[22].code = "...-";
+    upDown[23].code = ".--";
+    upDown[24].code = "-..-";
+    upDown[25].code = "-.--";
+    upDown[26].code = "--..";
+}
+
+
+https://www.geeksforgeeks.org/morse-code-implementation/

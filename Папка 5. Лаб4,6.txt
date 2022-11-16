@@ -1,0 +1,197 @@
+
+4.
+
+
+
+
+class AEROPORT {
+public:
+
+
+	char name[10];
+	int number_Of_Flight;
+	char type[15];
+	float time;
+
+	void FillArr();
+	void ShowArr();
+
+};
+
+void AEROPORT::FillArr() {
+	cout << endl << endl;
+	cout << " Input name :  "; cin >> name;
+	cout << " Input flight number :   "; cin >> number_Of_Flight;
+	cout << " Input type of aircraft :  "; cin >> type;
+	cout << " Input departure time :  "; cin >> time;
+	cout << endl << endl;
+}
+
+void AEROPORT::ShowArr() {
+	cout << endl << endl;
+	cout << " Name :  " << name << endl;
+	cout << " Flight number :  " << number_Of_Flight << endl;
+	cout << " Type of aircraft :  " << type << endl;
+	cout << " Departure time : " << time << endl;
+	cout << endl << endl;
+}
+
+
+void InfoAboutFlight(AEROPORT* city, int run) {
+
+	string new_name = " Kyiv   "
+		" London "
+		" New York ";
+
+	string time_to_srart = " 12.30  "
+		" 13.30  "
+		" 14.30";
+
+	string time_to_stop = " 15.30  "
+		" 16.30  "
+		" 17.30";
+
+
+	cout << " Rozklad : " << endl;
+	cout << new_name << endl;
+	cout << time_to_srart << endl;
+	cout << time_to_stop << endl << endl;
+
+}
+
+void InfoAboutMoving(AEROPORT* city, int run) {
+	string cityB;
+	cout << endl;
+	cout << " Input city : ";
+	cin >> cityB;
+
+	if (cityB == "Kyiv") {
+		cout << " Kyiv - 12.30";
+
+	}
+	if (cityB == "London") {
+		cout << " London - 13.30 ";
+	}
+	if (cityB == "New York") {
+		cout << " New York - 14.30 ";
+	}
+	if (cityB != "Kyiv" && cityB != "London" && cityB != "New York") {
+		cout << " No information " << endl;
+
+	}
+}
+
+int main() {
+		AEROPORT* aeroport;
+	
+		int NumbersOfPassengers;
+		cout << " Input list of passengers : "; cin >> NumbersOfPassengers;
+	
+		aeroport = new AEROPORT[NumbersOfPassengers];
+		for (int i = 0; i < NumbersOfPassengers; i++) {
+			aeroport[i].FillArr();
+		}
+
+		AEROPORT* city;
+		int run = 0;
+		city = new AEROPORT[run];
+		
+		InfoAboutFlight(city, run);
+		InfoAboutMoving(city, run);
+
+		delete[] city;
+		delete[]aeroport;
+-----------------------------------------------------------------------------------------------
+
+6.
+
+class B1 {
+	int a;
+public:
+	B1() {
+
+	}
+
+	B1(int x) {
+		a = x;
+	}
+
+	void show_B1() {
+		cout << " B1 = " << a << endl;
+	}
+};
+
+class B2 {
+	int b;
+public:
+	B2(int y) {
+		b = y;
+	}
+	void show_B2() {
+		cout << " B2 = " << b << endl;
+	}
+};
+
+class D1 : public B1, public B2{
+	int c;
+public:
+	D1(int x, int y, int z) :B1(x), B2(y) {
+		c = x;
+	}
+	void show_D1() {
+		cout << " D1 = " << c << endl;
+		show_B2();
+	}
+	
+};
+
+class D2 {
+	int d;
+public:
+	D2(int t) {
+		d = t;
+	}
+	void show_D2() {
+		cout << " D2 = " << d << endl;
+	}
+};
+
+class D3 : public D1, public D2 {
+	int e;
+public:
+	D3(int x, int y, int z, int t) : D1(x,y,z), D2(t) {
+		e = t;
+	}
+
+	void show_D3() {
+		cout << " D3 = " << e << endl;
+		show_D2();
+		show_D1();
+	}
+
+};
+
+class D4 : public D3 {
+	int f;
+public:
+	D4(int x, int y, int z, int t) : D3(x,y,z,t) {
+		f = x;
+	}
+
+	void show_D4() {
+		cout << " D4 = " << f << endl;
+		show_D3();
+	}
+};
+
+
+int main() {
+
+	D3 temp(6, 7, 8, 9);
+	D4 temp1(1, 2, 3, 4);
+
+	cout << "D3 temp(6, 7, 8, 9)" << endl;
+	cout << "D4 temp(1, 2, 3, 4) " << endl;
+
+	temp.show_D3();
+	temp1.show_D4();

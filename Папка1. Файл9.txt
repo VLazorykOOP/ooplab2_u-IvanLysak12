@@ -1,0 +1,61 @@
+int multipli(int* arr, int SIZE) {
+	int dob = 1;
+	for (int i = 0; i < SIZE; i++) {
+		dob *= arr[i];
+
+	}
+	cout << dob;
+	return dob;
+	
+}
+
+void kvadr() {
+
+	int number;
+	int sum;
+	cout << " Input number : ";
+	cin >> number;
+
+	for (int i = 0; i < number; i++) {
+		cout << i << "\t";
+
+		sum = pow(i, 2);
+		cout << sum << endl;
+	}
+	cout << endl;
+}
+
+void dobOfcomplex(int valueA, int valueA_2, int valueB, int valueB_2, int valueI) {
+	int dob;
+	dob = (valueA * valueA_2 - valueB * valueB_2) 
+		+ valueI * (valueA * valueB_2 + valueA_2 * valueB);
+	cout << " Dobutok of complex numbers = " << dob << endl << endl;
+}
+
+int main() {
+	srand(time(NULL));
+
+	
+	dobOfcomplex(1, 2, 3, 4, 5);
+
+	kvadr();
+
+	int SIZE;
+	cout << " Intput size : ";
+	cin >> SIZE;
+
+	int* arr = new int[SIZE];
+	for (int i = 0; i < SIZE; i++) {
+		arr[i] = rand() % 20;
+	}
+
+
+	for (int i = 0; i < SIZE; i++) {
+		cout << *(arr + i) << endl;
+	}
+
+	cout << endl;
+
+	cout << "Dobutok = ";
+	multipli(arr, SIZE);
+	delete[]arr;

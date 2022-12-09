@@ -1,0 +1,297 @@
+#include <iostream>
+#include <Windows.h>
+#include <bitset>
+
+using namespace std;
+
+class VectorLong
+{
+	long* v;
+	int size;
+	int codeError;
+public:
+	VectorLong() : v(NULL), size(0), codeError(0) {}
+	VectorLong(int n);
+	VectorLong(int n, long& a);
+	VectorLong(int n, long* a);
+	VectorLong(const VectorLong& a);
+	~VectorLong()
+	{
+		//cout << " del vec";
+		if (v) delete[] v;
+	}
+	short getV(int i) { return v[i]; }
+	void input();
+	void print();
+	void print_bit();
+
+	void operator++();
+	void operator++(int);
+	void operator--();
+	void operator--(int);
+	bool operator!();
+	void operator~();
+	void operator-();
+	VectorLong& operator=(const VectorLong& a);
+	VectorLong operator+(VectorLong& a);
+	VectorLong operator+(long a);
+	VectorLong operator-(VectorLong& a);
+	VectorLong operator-(long a);
+	VectorLong operator*(VectorLong& a);
+	VectorLong operator*(long a);
+	VectorLong operator/(long a);
+	VectorLong operator%(long a);
+
+};
+VectorLong::VectorLong(int n)
+{
+	if (n <= 0)
+	{
+		v = NULL; size = 0; codeError = -1; cout << " Vec --> 0 ";
+	}
+	size = n;
+	v = new long[n];
+	for (int i = 0; i < n; i++)
+	{
+		v[i] = 0;
+	}
+}
+VectorLong::VectorLong(int n, long& a)
+{
+	if (n <= 0) { v = NULL; size = 0; codeError = -1; cout << " Vec --> 0 "; }
+	size = n;
+	v = new long[n];
+	for (int i = 0; i < n; i++) {
+		v[i] = a;
+	}
+}
+VectorLong::VectorLong(int n, long* a) {
+	if (n <= 0) { v = NULL; size = 0; codeError = -1; cout << " Vec --> 0 "; }
+	size = n;
+	v = new long[n];
+	for (int i = 0; i < n; i++) {
+		v[i] = a[i];
+	}
+}
+VectorLong::VectorLong(const VectorLong& s) {
+	size = s.size;
+	v = new long[size];
+	codeError = 0;
+	for (int i = 0; i < size; i++) v[i] = s.v[i];
+}
+
+void VectorLong::input()
+{
+	if (size <= 0)
+	{
+		cout << "Введіть розмір масива: "; cin >> size;
+		v = new long[size];
+	}
+	cout << "Введіть " << size << " чисел" << endl;
+	for (int i = 0; i < size; i++)cin >> v[i];
+}
+
+void VectorLong::print()
+{
+	for (int i = 0; i < size; i++)cout << v[i] << " ";
+	cout << endl;
+}
+
+void VectorLong::print_bit()
+{
+	for (int i = 0; i < size; i++)cout << bitset<sizeof(unsigned long) * 8>(v[i]) << endl;
+}
+
+void VectorLong::operator++()
+{
+	for (int i = 0; i < size; i++)v[i]++;
+}
+
+void VectorLong::operator++(int)
+{
+	for (int i = 0; i < size; i++)v[i]++;
+}
+
+void VectorLong::operator--()
+{
+	for (int i = 0; i < size; i++)v[i]--;
+}
+
+void VectorLong::operator--(int)
+{
+	for (int i = 0; i < size; i++)v[i]--;
+}
+
+bool VectorLong::operator!()
+{
+	if (size != 0)return true;
+	else return false;
+}
+
+void VectorLong::operator~()
+{
+	for (int i = 0; i < size; i++)v[i] = ~v[i];
+}
+
+void VectorLong::operator-()
+{
+	for (int i = 0; i < size; i++)v[i] *= -1;
+}
+
+VectorLong& VectorLong::operator=(const VectorLong& s) {
+	if (size != s.size)
+	{
+		if (v) delete[] v;
+		size = s.size;
+		v = new long[size];
+		codeError = 0;
+	}
+	for (int i = 0; i < size; i++) v[i] = s.v[i];
+	return *this;
+}
+
+VectorLong VectorLong::operator+(VectorLong& a)
+{
+	int n;
+	n = size < a.size ? size : a.size;
+	VectorLong tmp(n);
+	for (int i = 0; i < n; i++)tmp.v[i] = v[i] + a.v[i];
+	return tmp;
+}
+
+VectorLong VectorLong::operator+(long a)
+{
+	VectorLong tmp(size);
+	for (int i = 0; i < size; i++)tmp.v[i] = v[i] + a;
+	return tmp;
+}
+
+VectorLong VectorLong::operator-(VectorLong& a)
+{
+	int n;
+	n = size < a.size ? size : a.size;
+	VectorLong tmp(n);
+	for (int i = 0; i < n; i++)tmp.v[i] = v[i] - a.v[i];
+	return tmp;
+}
+
+VectorLong VectorLong::operator-(long a)
+{
+	VectorLong tmp(size);
+	for (int i = 0; i < size; i++)tmp.v[i] = v[i] - a;
+	return tmp;
+}
+
+VectorLong VectorLong::operator*(VectorLong& a)
+{
+	int n;
+	n = size < a.size ? size : a.size;
+	VectorLong tmp(n);
+	for (int i = 0; i < n; i++)tmp.v[i] = v[i] * a.v[i];
+	return tmp;
+}
+
+VectorLong VectorLong::operator*(long a)
+{
+	VectorLong tmp(size);
+	for (int i = 0; i < size; i++)tmp.v[i] = v[i] * a;
+	return tmp;
+}
+
+VectorLong VectorLong::operator/(long a)
+{
+	VectorLong tmp(size);
+	for (int i = 0; i < size; i++)tmp.v[i] = v[i] / a;
+	return tmp;
+}
+
+VectorLong VectorLong::operator%(long a)
+{
+	VectorLong tmp(size);
+	for (int i = 0; i < size; i++)tmp.v[i] = v[i] % a;
+	return tmp;
+}
+
+void main(int argc, TCHAR* argv[])
+{
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+	long a;
+	cout << "Введіть число: "; cin >> a;
+	VectorLong vec1, vec2(5), vec3(4, a);
+	cout << "vec1" << endl;
+	vec1.print();
+	cout << "vec2" << endl;
+	vec2.print();
+	cout << "vec3" << endl;
+	vec3.print();
+	cout << endl << "============================" << endl;
+	cout << "vec1" << endl;
+	vec1.input();
+
+	cout << "vec2" << endl;
+	vec2.print();
+	cout << "\nvec1++" << endl;
+	vec1++;
+	vec1.print();
+	cout << "\n++vec1" << endl;
+	++vec1;
+	vec1.print();
+
+	cout << "\nvec1--" << endl;
+	vec1--;
+	vec1.print();
+	cout << "\n--vec1" << endl;
+	--vec1;
+	vec1.print();
+
+	if (!vec1)cout << "\nКількість елементів vec1 не дорівнює 0" << endl;
+	else cout << "\nКількість елементів vec1 дорівнює 0" << endl;
+
+	cout << "\nБітове представлення vec1" << endl;
+	vec1.print_bit();
+	cout << "~vec1" << endl;
+	~vec1;
+	vec1.print_bit();
+	cout << "vec1: ";
+	vec1.print();
+
+	cout << "\n-vec1" << endl;
+	-vec1;
+	vec1.print();
+
+	cout << "\nКопіювання vec1 в vec2" << endl;
+	vec2 = vec1;
+
+	cout << "\nvec2 = vec1 + vec3 = ";
+	vec2 = vec1 + vec3;
+	vec2.print();
+
+	cout << "\nvec2 + " << a << " = ";
+	vec2 = vec2 + a;
+	vec2.print();
+
+	cout << "\nvec2 = vec1 - vec3 = ";
+	vec2 = vec1 - vec3;
+	vec2.print();
+
+	cout << "vec2 - " << a << " = ";
+	vec2 = vec2 - a;
+	vec2.print();
+
+	cout << "\nvec2 = vec1 * vec3 = ";
+	vec2 = vec1 * vec3;
+	vec2.print();
+
+	cout << "vec2 * " << a << " = ";
+	vec2 = vec2 * a;
+	vec2.print();
+
+	cout << "vec2 / " << a << " = ";
+	vec2 = vec2 / a;
+	vec2.print();
+
+	cout << "vec2 % " << a << " = ";
+	vec2 = vec2 % a;
+	vec2.print();
+}

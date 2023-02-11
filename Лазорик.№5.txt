@@ -1,0 +1,717 @@
+
+
+
+
+
+
+
+Задача 1.5. Створити класи чотирикутників, квадратів і прямокутників. 
+Створити з них ієрархію. Визначити функції друку, конструктори й деструктори,
+обчислення площі й периметра. Написати програму тестування всіх можливостей 
+цього класу.
+
+#include <iostream>
+#include <string>
+#include <Windows.h>
+#include <fstream>
+#include <sstream>
+
+using namespace std;
+
+struct Quadrangle {
+	
+	int a;
+	int b;
+	int c;
+	int d;
+
+	Quadrangle() {
+		 a = b = c = d = 0;
+		 cout << "Default ctor Quadrangle " << endl;
+	}
+	Quadrangle(int value) {
+		value = 0;
+		cout << "Ctor with once parametr " << endl;
+	}
+	Quadrangle(int arr[6]) {
+		
+		 a = arr[2];
+		 b = arr[3];
+		 c = arr[4];
+		 d = arr[5];
+		cout << "Ctor Quadrangle (int arr[]) " << endl;
+
+	}
+	Quadrangle(const Quadrangle& other) {
+	
+		a = other.a;
+		b = other.b;
+		c = other.c;
+		d = other.d;
+		cout << "Ctor Copy Quadrangle (const Quadrangle& other) " << endl;
+	}
+	Quadrangle(Quadrangle && other) noexcept {
+
+		a = other.a;
+		b = other.b;
+		c = other.c;
+		d = other.d;
+		cout << "Ctor Move Quadrangle (Quadrangle && other) " << endl;
+
+	
+		other.a = 0;
+		other.b = 0;
+		other.c = 0;
+		other.d = 0;
+	}
+
+
+	Quadrangle(int a, int b, int c, int d) {
+		this->a = a;
+		this->b = b;
+		this->c = c;
+		this->d = d;
+	}
+
+	~Quadrangle() { cout << "Dtor ~Quadrangle " << endl; }
+
+	Quadrangle& operator = (const Quadrangle& other) {
+	
+		a = other.a;
+		b = other.b;
+		c = other.c;
+		d = other.d;
+
+		cout << "Operator = (const Quadrangle & other) " << endl;
+		return *this;
+	}
+
+	bool operator ==(Quadrangle& other) { 
+		return (this->a == other.a
+			 && this->b == other.b
+			 && this->c == other.c 
+			 && this->d == other.d);
+	}
+
+	Quadrangle operator *(int other) {
+		return Quadrangle(this->a * other, this->b * other, this->c * other, this->d * other);
+	}	
+
+
+
+	void Input() {
+		cout << "Input a : "; cin >> a;
+		cout << "Input b : "; cin >> b;
+		cout << "Input c : "; cin >> c;
+		cout << "Input d : "; cin >> d;
+	}
+
+	
+	friend ostream& operator <<(ostream& os, Quadrangle& other);
+	friend istream& operator >>(istream& is, Quadrangle& other);
+
+};
+ostream& operator <<(ostream& os, Quadrangle& other) {
+
+	os << other.a << endl;
+	os << other.b << endl;
+	os << other.c << endl;
+	os << other.d << endl;
+	return os;
+}
+istream& operator >>(istream& is, Quadrangle& other) {
+	is >> other.a;
+	is >> other.b;
+	is >> other.c;
+	is >> other.d;
+	return is;
+}
+
+
+class Square : public Quadrangle {
+public:
+
+	int S, P;
+	
+	Square() {
+		S = P = 0;
+		cout << "Ctor Squere " << endl;
+	}
+
+	Square(int a, int b, int c, int d): Quadrangle(a, b, c, d) {
+		cout << "Ctor Square " << endl;
+	}
+
+	Square& operator = (const Square& other)  {
+		S = other.S;
+		P = other.P;
+		a = other.a;
+		b = other.b;
+		c = other.c;
+		d = other.d;
+
+		cout << "Operator = (const Square & other) " << endl;
+		return *this;
+	}
+
+	~Square() {
+		cout << "Dtor Square " << endl;
+	}
+
+	int Square_Perimeter_P() {
+		return P = a * 4;
+	}
+
+	int Square_Area_S() {
+		return S = (int)pow(a, 2);
+	}
+
+
+	void Input() {
+		//a.Input();
+		cout << "Input A : "; while (!(cin >> a) || (a < 0 || a == 0)) {
+			cin.clear();
+			cin.ignore(MAXSHORT, '\n');
+			fflush(stdin);
+			cout << " MISTAKE A " << endl;
+		}
+
+		cout << "Input B : "; while (!(cin >> b) || (b < 0 || b == 0 || b != a)) {
+			cin.clear();
+			cin.ignore(MAXSHORT, '\n');
+			fflush(stdin);
+			cout << " MISTAKE B " << endl;
+		}
+
+		cout << "Input C : "; while (!(cin >> c) || (c < 0 || c == 0 || c != a || c != b)) {
+			cin.clear();
+			cin.ignore(MAXSHORT, '\n');
+			fflush(stdin);
+			cout << " MISTAKE  C " << endl;
+		}
+
+		cout << "Input D : "; while (!(cin >> d) || (d < 0 || d == 0 || d != a || d != b || d != c)) {
+			cin.clear();
+			cin.ignore(MAXSHORT, '\n');
+			fflush(stdin);
+			cout << " MISTAKE D " << endl;
+		}
+	};
+
+	friend ostream& operator <<(ostream& os, Square& other);
+	
+};
+
+ostream& operator <<(ostream& os, Square& other) {
+	os << other.S << endl;
+	os << other.P << endl;
+	os << other.a << endl;
+	os << other.b << endl;
+	os << other.c << endl;
+	os << other.d << endl;
+	return os;
+}
+
+
+
+class Rec : public Square {
+
+public:
+
+	Rec() { cout << "Ctor Rec " << endl; }
+
+	Rec(int a, int b, int c, int d) : Square(a, b, c, d) {
+		cout << "Ctor Rec with parametrs " << endl;
+	}
+	int Rec_Perimeter_P() {
+		return P = (a + b) * 2;
+	}
+	int Rec_Area_S() {
+		return S = a * b;
+	}
+
+	void Input() {
+		//a.Input();
+		cout << "Input A : "; while (!(cin >> a) || (a < 0 || a == 0)) {
+			cin.clear();
+			cin.ignore(MAXSHORT, '\n');
+			fflush(stdin);
+			cout << " MISTAKE A " << endl;
+		}
+
+		cout << "Input B : "; while (!(cin >> b) || (b < 0 || b == 0)) {
+			cin.clear();
+			cin.ignore(MAXSHORT, '\n');
+			fflush(stdin);
+			cout << " MISTAKE B " << endl;
+		}
+
+		cout << "Input C : "; while (!(cin >> c) || (c < 0 || c == 0 || c != a)) {
+			cin.clear();
+			cin.ignore(MAXSHORT, '\n');
+			fflush(stdin);
+			cout << " MISTAKE  C " << endl;
+		}
+
+		cout << "Input D : "; while (!(cin >> d) || (d < 0 || d == 0 || d != b)) {
+			cin.clear();
+			cin.ignore(MAXSHORT, '\n');
+			fflush(stdin);
+			cout << " MISTAKE D " << endl;
+		}
+	};
+	~Rec() { cout << "Dtor Rec " << endl; }
+
+	
+};
+
+
+int main() {
+
+	char choice = 'n';
+	do {
+		cout << "\t Main menu \t" << endl;
+		cout << "1 - Square Perimeter " << endl;
+		cout << "2 - Square Area " << endl;
+		cout << "3 - Rectangle Perimeter " << endl;
+		cout << "4 - Rectangle Area " << endl;
+
+		cout << "5 - Input All Info About Square In File " << endl;
+		cout << "6 - Output All Info About Square In File " << endl;
+
+		cout << "7 - Input All Info About Rectangle In File " << endl;
+		cout << "8 - Output All Info About Rectangle In File " << endl;
+
+		cout << endl;
+		cout << "q - Quit " << endl;
+		cout << endl;
+
+		cout << "You choice : "; cin >> choice;
+
+		switch (choice) {
+		case '1': {
+			Square s;
+			s.Input();
+			cout << s.Square_Perimeter_P() << endl;
+			break;
+		}
+		case '2': {
+			Square s;
+			s.Input();
+			cout << s.Square_Area_S() << endl;
+			break;
+		}
+		case '3': {
+			Rec rec;
+			rec.Input();
+			cout << rec.Rec_Perimeter_P() << endl;
+			break;
+		}
+		case '4': {
+			Rec rec;
+			rec.Input();
+			cout << rec.Rec_Area_S() << endl;
+			break;
+		}
+
+		case '5': {
+			string path = "myFile.txt";
+			ofstream fout;
+			fout.open(path);
+
+			if (!fout.is_open()) { cout << " MISTAKE " << endl; }
+			else {
+				cout << "Oparation was successful " << endl;
+				Square sq;
+				sq.Input();
+				int res = sq.Square_Perimeter_P();
+				int res_2 = sq.Square_Area_S();
+
+				fout << res << endl;
+				fout << res_2 << endl;
+			}
+			fout.close();
+			break;
+		}
+		case '6': {
+			string path = "myFile.txt";
+			ifstream fin;
+			fin.open(path);
+
+			if (!fin.is_open()) {
+				cout << " MISTAKE " << endl;
+			}
+			else {
+				cout << "Oparation was successful " << endl;
+				char c;
+				while (fin >> c) {
+					if (isdigit(c)) {
+						cout << c << endl;
+					}
+				}
+			}
+			fin.close();
+			break;
+		}
+
+		case '7': {
+			string path = "myFile.txt";
+			ofstream fout;
+			fout.open(path);
+
+			if (!fout.is_open()) { cout << " MISTAKE " << endl; }
+			else {
+				cout << "Oparation was successful " << endl;
+				Rec rec;
+				rec.Input();
+				int res = rec.Rec_Perimeter_P();
+				int res_2 = rec.Rec_Area_S();
+
+				fout << res << endl;
+				fout << res_2 << endl;
+			}
+			fout.close();
+			break;
+		}
+		case '8': {
+
+			string path = "myFile.txt";
+			ifstream fin;
+			fin.open(path);
+
+			if (!fin.is_open()) {
+				cout << " MISTAKE " << endl;
+			}
+			else {
+				cout << "Oparation was successful " << endl;
+				char c;
+				while (fin >> c) {
+					if (isdigit(c)) {
+						cout << c << endl;
+					}
+				}
+			}
+			fin.close();
+			break;
+		}
+
+		default:
+			cout << " ??? " << endl;
+
+		}
+
+	} while (choice != 'q');
+	cout << " Exit from test! Bye! " << endl;
+
+	return 0;
+}
+
+---------------------------------------------------------------
+Завдання 2. Композиція та ієрархія.
+
+Задача 2.5. Використовуючи ієрархію й композицію класів, створити бінарне дерево. 
+У бінарного дерева є кореневий вузол. Ми можемо вставляти вузол. Ми можемо 
+обходити завширшки й зворотний обхід. Вузол може бути поміщений у дерево 
+двійкового пошуку тільки в якості кінцевого вузла. Якщо дерево є порожнім, то 
+створюється новий екземпляр класу вузол дерева й вузол міститься в дерево. Якщо 
+дерево не є порожнім, то програма порівнює, що вставляється в дерево значення зі 
+значенням у кореневому вузлі і якщо менше, те поміщає в ліві під-дерева, а якщо 
+більше, те в праві. Якщо значення рівні, то виводиться повідомлення, що повтор і не 
+вставляється. 
+
+
+Функція "Tree_Result" є рекурсивною і реалізує обхід бінарного дерева.
+Це означає, що вона відображає вміст кожного вузла 
+в дереві в порядку "ліве піддерево" -> "корінь" -> "праве піддерево".
+
+У ядрі функція перевіряє, чи вузол дерева не дорівнює nullptr. Якщо це так,
+то функція завершується. Якщо вузол не дорівнює nullptr, то функція 
+рекурсивно викликає саму себе для лівого піддерева вузла. Після цього
+вона виводить значення вузла на консоль. Нарешті, функція рекурсивно 
+викликає саму себе для правого піддерева вузла.
+
+#include <iostream>
+#include <ctime>
+
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int data) {
+        this->data = data;
+        this->left = nullptr;
+        this->right = nullptr;
+    }
+};
+
+class BinaryTree {
+public:
+    Node* root;
+    BinaryTree() {
+        root = nullptr;
+    }
+
+    void insert_Node(int data) {
+        if (root == nullptr) {
+            root = new Node(data);
+            return;
+        }
+        Node* current = root;
+        while (true) {
+            if (data < current->data) {
+                if (current->left == nullptr) {
+                    current->left = new Node(data);
+                    return;
+                }
+                current = current->left; 
+            }
+            else if (data > current->data) {
+                if (current->right == nullptr) {
+                    current->right = new Node(data);
+                    return;
+                }
+                current = current->right;
+            }  
+            else {
+                cout << "Duplicate data, not inserting" << endl;
+                return;
+            }
+          
+        }
+    }
+    void Tree_Result(Node* node) {
+        if (node == nullptr) {
+            return;
+        }
+
+        Tree_Result(node->left);
+        cout << node->data << " ";
+        Tree_Result(node->right);
+    }
+
+ ~BinaryTree() {
+        destroy_tree(root);
+    }
+
+private:
+void destroy_tree(Node* node) {
+        if (node == nullptr) {
+            return;
+        }
+
+        destroy_tree(node->left);
+        destroy_tree(node->right);
+        delete node;
+    }
+  
+};
+
+int main() {
+
+    srand(time(NULL));
+
+    int count_of_leaf = 0;
+    cout << "Input Count Of Leaf : ";
+    cin >> count_of_leaf;
+
+    BinaryTree tree;
+    for (int i = 0; i < count_of_leaf; i++) {
+        int data = rand() % 100;
+        tree.insert_Node(data);
+    }
+
+   /*BinaryTree tree;
+    tree.insert_Node(15);
+    tree.insert_Node(20);
+    tree.insert_Node(1);
+    tree.insert_Node(9);
+    tree.insert_Node(7);*/
+
+    cout << "Binary Tree : ";
+    tree.Tree_Result(tree.root);
+    cout << endl;
+
+	return 0;
+}
+
+
+
+
+Задача 3.5. Створити клас рядків і похідний від нього - клас рядків із цифр. Визначити 
+конструктори й деструктори, перевизначити вивід і введення в потік. Перевантажити 
+оператор присвоювання й конструктор копіювання в базовому й похідному класі
+
+
+class String {
+	char* str;
+	size_t len;
+public:
+	String() {
+		str = nullptr;
+		len = 0;
+	}
+	String(const char* str) { /*initialize*/
+		len = strlen(str);
+		this->str = new char[len + 1];
+		for (int i = 0; i < len; i++) {
+			this->str[i] = str[i];
+		}
+		this->str[len] = '\0';
+
+	}
+	String(const String& other) { /*ctor copy*/
+		len = strlen(other.str);
+		this->str = new char[len + 1];
+		for (int i = 0; i < len; i++) {
+			this->str[i] = other.str[i];
+		}
+		str[len] = '\0';
+
+	}
+
+	String& operator =(const String& other) {
+		if (this->str != nullptr) {
+			delete[]this->str;
+		}
+		len = strlen(other.str);
+		this->str = new char[len + 1];
+		for (int i = 0; i < len; i++) {
+			this->str[i] = other.str[i];
+		}
+		this->str[len] = '\0';
+
+		return *this;
+	}
+
+	String operator+(const String& other) {
+		String newStr;
+
+		int thisLen = strlen(this->str);
+		int otherLen = strlen(other.str);
+
+		newStr.len = static_cast<size_t>(thisLen) + otherLen;
+
+		newStr.str = new char[thisLen + otherLen + 1];
+		int i = 0;
+		for (; i < thisLen; i++) {
+			newStr.str[i] = this->str[i];
+		}
+		for (int j = 0; j < otherLen; j++, i++) {
+			newStr.str[i] = other.str[j];
+		}
+		newStr.str[thisLen + otherLen] = '\0';
+		return newStr;
+
+	}
+
+
+	bool operator ==(String& other) {
+		if (this->len != other.len) {
+			return false;
+		}
+		else {
+			for (int i = 0; i < len; i++) {
+				if (this->str[i]!= other.str[i]) {
+					return false;
+				}
+			}
+			return true;
+		}
+	}
+
+	bool operator !=(String& other) {
+		return !(this->operator==(other));
+	}
+
+
+	String(String&& other) noexcept {
+		this->len = other.len;
+		this->str = other.str;
+		other.str = nullptr;
+	}
+
+	char& operator[](int index) {
+		return this->str[index];
+	}
+	void Print() { cout << str << endl; }
+	int Len() { return len;}
+
+
+	~String() {
+		delete[] this->str;
+	}
+
+
+	friend ostream& operator <<(ostream& os, String& str_of);
+	friend istream& operator >>(istream& is, String& str_is);
+
+		
+};
+ostream& operator <<(ostream& os, String& str_of) {
+	os << str_of.str << endl;
+
+	return os;
+}
+istream& operator >>(istream& is, String& str_is) {
+	
+	char temp[1000];
+	is.getline(temp, 1000);
+	str_is = String(temp);
+
+	return is;
+}
+
+class String_With_Numbers : public String {
+public:
+	String_With_Numbers() : String() {
+
+	}
+	String_With_Numbers(const char* str) : String(str) {  /*initialize*/
+
+	}
+	explicit String_With_Numbers(const String& str) : String(str) { /*ctor copy*/
+
+	}
+	explicit String_With_Numbers(const String_With_Numbers& str) : String(str) {
+
+	}
+	String_With_Numbers& operator=(const String_With_Numbers& other) {
+		
+			String::operator=(other);
+				return *this;
+
+	}
+
+	int GenerateRandomNumber(int min, int max) {
+
+		return min + rand() % (max - min + 1);
+	}
+
+
+	~String_With_Numbers() { }
+};
+
+
+
+int main() {
+
+	String_With_Numbers number;
+	cout << number.GenerateRandomNumber(1, 100) << endl;
+
+	String_With_Numbers number_2;
+	cin >> number_2;
+	cout << number_2 << endl;
+
+	String message;
+	cin >> message;
+
+	cout << message << endl;
+
+
+
+	return 0;
+}

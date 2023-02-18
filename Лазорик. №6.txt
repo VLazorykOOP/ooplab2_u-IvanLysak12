@@ -1,0 +1,535 @@
+1.
+class Base {
+protected:
+	int data_base;
+public:
+	Base() : data_base(1) {
+
+	}
+	Base(int data) : data_base(data) {
+
+	}
+	~Base() {
+
+	}
+};
+
+class Left_to_Base : protected Base {
+protected:
+	int left_to_base;
+public:
+	Left_to_Base() : left_to_base(1) {
+
+	}
+	Left_to_Base(int left_base) : left_to_base(left_base) {
+
+	}
+	Left_to_Base(int left_base, int also_left_base) : Base(left_base), left_to_base(also_left_base) {
+
+	}
+	~Left_to_Base() {
+
+	}
+};
+
+class Right_to_Base : protected Base {
+protected:
+	int right_to_base;
+public:
+	Right_to_Base() : right_to_base(1) {
+
+	}
+	Right_to_Base(int right_base) : right_to_base(right_base) {
+
+	}
+	Right_to_Base(int right_base, int also_right_base) : Base(right_base), right_to_base(also_right_base) {
+
+	}
+	~Right_to_Base() {
+
+	}
+};
+
+class Center : protected Base, protected Right_to_Base {
+protected:
+	int to_center;
+public:
+
+	Center() : to_center(1) {
+
+	}
+	Center(int center) : to_center(center) {
+
+	}
+	Center(int base, int right, int also_right, int also_center)
+	:  Base(base), Right_to_Base(right, also_right),to_center(also_center) {
+
+	}
+	~Center() {
+
+	}
+};
+
+class Left_to_Center : protected Left_to_Base, protected Center {
+protected:
+	int left_to_Center;
+public:
+	Left_to_Center() : left_to_Center(1) {
+
+	}
+
+	Left_to_Center(int left_Center) : left_to_Center(left_Center) {
+
+	}
+
+	Left_to_Center(int left_base, int also_left_base, int center_A, int center_B, int center_C, int center_D, int left_center)
+		: Left_to_Base(left_base, also_left_base), Center(center_A, center_B, center_C, center_D),
+		left_to_Center(left_center) {
+
+	}
+
+	~Left_to_Center() {
+
+	}
+};
+
+class Right_to_Center : protected Center, protected Left_to_Center {
+protected:
+	int right_to_center;
+public:
+	Right_to_Center() : right_to_center(1) {
+
+	}
+
+	Right_to_Center(int right_Center) : right_to_center(right_Center) {
+
+	}
+
+	Right_to_Center(int center_A, int center_B, int center_C, int center_D, 
+		int left_centr_1, int left_centr_2, int left_centr_3, int left_centr_4,
+		int left_centr_5, int left_centr_6, int left_centr_7,
+		int right_center)
+
+		: Center(center_A, center_B, center_C, center_D), Left_to_Center(left_centr_1,
+			left_centr_2, left_centr_3, left_centr_4, left_centr_5, left_centr_6, left_centr_7),
+		right_to_center(right_center) {
+
+	}
+
+	void Show_Data() {
+		cout << " dat = ? Error C2385 ambiguous access level dat " << endl;
+
+		cout << "Base::data = " << Right_to_Center::Center::Right_to_Base::Base::data_base << endl;
+		cout << "Base::data = " << Base::data_base << endl;
+		cout << "Base::data = " << Left_to_Center::Left_to_Base::Base::data_base << endl;
+
+	}
+
+	~Right_to_Center() {}
+
+};
+
+//virtual :
+
+class Left_to_Base_Virt : virtual protected Base {
+protected:
+	int left_to_base_virt;
+public:
+	Left_to_Base_Virt() : left_to_base_virt(1) {}
+	Left_to_Base_Virt(int left_base_virt) : left_to_base_virt(left_base_virt) {}
+
+	Left_to_Base_Virt(int base_virt, int left_base_virt) : Base(base_virt),
+		left_to_base_virt(left_base_virt) {
+
+	}
+
+	~Left_to_Base_Virt() {}
+};
+
+class Right_to_Base_Virt : virtual protected Base {
+protected:
+	int right_to_base;
+public:
+	Right_to_Base_Virt() : right_to_base(1) {
+
+	}
+	Right_to_Base_Virt(int right_base) : right_to_base(right_base) {
+
+	}
+	Right_to_Base_Virt(int right_base, int also_right_base) : Base(right_base), right_to_base(also_right_base) {
+
+	}
+	~Right_to_Base_Virt() {
+
+	}
+};
+
+class Center_Virt : virtual protected Base, virtual protected Right_to_Base_Virt {
+protected:
+	int to_center;
+public:
+
+	Center_Virt() : to_center(1) {
+
+	}
+	Center_Virt(int center) : to_center(center) {
+
+	}
+	Center_Virt(int base, int right, int also_right, int also_center)
+		: Base(base), Right_to_Base_Virt(right, also_right), to_center(also_center) {
+
+	}
+	~Center_Virt() {
+
+	}
+};
+
+class Left_to_Center_Virt : virtual protected Left_to_Base_Virt, virtual protected Center_Virt {
+protected:
+	int left_to_Center;
+public:
+	Left_to_Center_Virt() : left_to_Center(1) {
+
+	}
+
+	Left_to_Center_Virt(int left_Center) : left_to_Center(left_Center) {
+
+	}
+
+	Left_to_Center_Virt(int left_base, int also_left_base, int center_A, int center_B, int center_C, int center_D, int left_center)
+		: Left_to_Base_Virt(left_base, also_left_base), Center_Virt(center_A, center_B, center_C, center_D),
+		left_to_Center(left_center) {
+
+	}
+
+	~Left_to_Center_Virt() {
+
+	}
+};
+
+class Right_to_Center_Virt : virtual protected Center_Virt, virtual protected Left_to_Center_Virt {
+protected:
+	int right_to_center;
+public:
+	Right_to_Center_Virt() : right_to_center(1) {
+
+	}
+
+	Right_to_Center_Virt(int right_Center) : right_to_center(right_Center) {
+
+	}
+
+	Right_to_Center_Virt(int center_A, int center_B, int center_C, int center_D,
+		int left_centr_1, int left_centr_2, int left_centr_3, int left_centr_4,
+		int left_centr_5, int left_centr_6, int left_centr_7,
+		int right_center)
+
+		: Center_Virt(center_A, center_B, center_C, center_D), Left_to_Center_Virt(left_centr_1,
+			left_centr_2, left_centr_3, left_centr_4, left_centr_5, left_centr_6, left_centr_7),
+		right_to_center(right_center) {
+
+	}
+
+	void Show_Data_Virt() {
+		cout << " dat = ? Error C2385 ambiguous access level dat " << endl;
+
+		cout << "Base::data = " << Right_to_Center_Virt::Center_Virt::Right_to_Base_Virt::Base::data_base << endl;
+		cout << "Base::data = " << Base::data_base << endl;
+		cout << "Base::data = " << Left_to_Center_Virt::Left_to_Base_Virt::Base::data_base << endl;
+
+	}
+
+	~Right_to_Center_Virt() {}
+
+};
+
+
+int main() {
+
+	Right_to_Center a, b(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+	Right_to_Center_Virt av, bv(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
+
+	cout << "\tTest inheritance : " << endl;
+	cout << endl;
+
+	cout << " Size of Base = " << sizeof(Base) << endl;
+	cout << " Size of Left_to_Base = " << sizeof(Left_to_Base) << endl;
+	cout << " Size of Right_to_Base = " << sizeof(Right_to_Base) << endl;
+	cout << " Size of Base = " << sizeof(Center) << endl;
+	cout << " Size of Left_to_Center = " << sizeof(Left_to_Center) << endl;
+	cout << " Size of Base = " << sizeof(Right_to_Center) << endl;
+
+	cout << endl;
+	cout << "\tVirtual Test : " << endl;
+	cout << endl;
+
+	cout << " Size of Base = " << sizeof(Base) << endl;
+	cout << " Size of Left_to_Base = " << sizeof(Left_to_Base_Virt) << endl;
+	cout << " Size of Right_to_Base = " << sizeof(Right_to_Base_Virt) << endl;
+	cout << " Size of Base = " << sizeof(Center_Virt) << endl;
+	cout << " Size of Left_to_Center = " << sizeof(Left_to_Center_Virt) << endl;
+	cout << " Size of Base = " << sizeof(Right_to_Center_Virt) << endl;
+
+	cout << endl;
+	cout << "\tTest to object in virtual/normal inheritance : " << endl;
+	cout << endl;
+
+	cout << "Size of object in normal inheritance = " << sizeof(Right_to_Center)
+		<< " or " << sizeof(a) << " or " << sizeof(b) << endl;
+
+	cout << "Size of object in virtual inheritance = " << sizeof(Right_to_Center_Virt)
+		<< " or " << sizeof(av) << " or " << sizeof(bv) << endl;
+
+    return 0;
+}
+
+-----------------------------------------------------------------------------------------------------------
+2.
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+class Progressy {
+protected:
+	double first;
+	double znam;
+public:
+	virtual double Sum_Progressy(int n) = 0;
+
+	Progressy(double first = 0.0, double znam = 0.0) : first(first), znam(znam) {}
+};
+
+class Geometry_Progressy : public Progressy {
+protected:
+	double znam_geom;
+public:
+	Geometry_Progressy (double first = 0.0, double znam_geom = 0.0) :
+		Progressy(first, znam_geom),  znam_geom(znam_geom) {}
+
+	double Sum_Progressy(int n) override {
+		return first * (1 - pow(znam_geom, n)) / (1 - znam_geom);
+	}
+};
+
+class Algebry_Progressy : public Progressy {
+protected:
+	double znam_alg;
+public:
+	Algebry_Progressy(double first = 0.0, double znam_alg = 0.0) 
+		: Progressy(first, znam_alg), znam_alg(znam_alg) { }
+
+
+	double Sum_Progressy(int n) override {
+		return n / 2.0 * (2 * first + (n - 1) * znam_alg);
+	}
+};
+
+int main () {
+
+	Algebry_Progressy algebr(1.0, 5.0);
+	cout << "Sum of algebra progressy : " << algebr.Sum_Progressy(2) << endl;
+
+	Geometry_Progressy geom(1.0, 5.0);
+	cout << "Sum of geometry progressy : " << geom.Sum_Progressy(2) << endl;
+
+	return 0;
+}
+-----------------------------------------------------------------------------------------------------------
+3.
+
+#include <iostream>
+#include <ctime>
+#include <string>
+
+using namespace std;
+
+class File {
+protected:
+	string name;
+	string file_extension; //розширення
+public:
+
+	File() : name("myFile"), file_extension(".txt") {
+		cout << "File" << endl;
+	}
+	File(string name, string file_extension) : name(name), file_extension(file_extension) {
+
+	}
+
+	string getName() { return name; }
+	void SetName(string n) { name = n; }
+	
+	string getFile_ectension() { return file_extension; }
+	void SetFile_ectension(string e) { file_extension = e;}
+
+	void File_Print() {
+		cout << "Name of File : " << name << endl;
+		cout << "File Extension : " << file_extension << endl;
+	}
+
+	friend ostream& operator <<(ostream& os, File& file);
+	friend istream& operator >>(istream& is, File& file);
+};
+ostream& operator <<(ostream& os, File& file) {
+	os << file.name << endl;
+	os << file.file_extension << endl;
+	return os;
+}
+
+istream& operator >>(istream& is, File& file) {
+	is >> file.name;
+	is >> file.file_extension;
+	return is;
+}
+
+
+class File_for_Read : public virtual File {
+protected:
+	string can_to_read;
+	string language_to_read;
+public:
+
+	File_for_Read() : can_to_read("yes"), language_to_read("ukr") {
+		cout << "File_for_Read" << endl;
+
+	}
+
+	File_for_Read(string can, string lang) : can_to_read(can), language_to_read(lang) {
+
+	}
+
+	string GetCan_to_read() { return can_to_read; }
+	void SetCan_to_read(string can) { can_to_read = can; }
+
+	string GetLanguage_to_read() { return language_to_read; }
+	void SetLanguage_to_read(string lang) { language_to_read = lang; }
+
+	void Read_Print() {
+		cout << "This file ready to read ? " << can_to_read << endl;
+		cout << "Language of this File : " << language_to_read << endl;
+	}
+
+	friend ostream& operator <<(ostream& os, File_for_Read& file_read);
+	friend istream& operator >>(istream& is, File_for_Read& file_read);
+};
+ostream& operator <<(ostream& os, File_for_Read& file_read) {
+	os << file_read.can_to_read << endl;
+	os << file_read.language_to_read << endl;
+	return os;
+}
+
+istream& operator >>(istream& is, File_for_Read& file_read) {
+	is >> file_read.can_to_read;
+	is >> file_read.language_to_read;
+	return is;
+}
+
+
+class File_to_Write : public virtual File {
+protected:
+	string can_to_write;
+	int count_of_symbol;
+public:
+
+	File_to_Write() : can_to_write("yes"), count_of_symbol(100) {
+		cout << "File_to_Write" << endl;
+
+	}
+
+	File_to_Write(string can_to_write, int count_of_symbol) :
+		can_to_write (can_to_write), count_of_symbol(count_of_symbol) {
+
+	}
+	string Get_to_Write() { return can_to_write; }
+	void Set_to_Write(string write) { can_to_write = write; }
+
+	int Get_Symbol() { return count_of_symbol; }
+	void Set_Symbol(int symb) { can_to_write = symb; }
+
+	void Print_Write() {
+		cout << "Count of Symbol : " << count_of_symbol << endl;
+	}
+
+
+	friend ostream& operator <<(ostream& os, File_to_Write& file_write);
+	friend istream& operator >>(istream& is, File_to_Write& file_write);
+};
+ostream& operator <<(ostream& os, File_to_Write& file_write) {
+	os << file_write.can_to_write << endl;
+	os << file_write.count_of_symbol << endl;
+	return os;
+}
+
+istream& operator >>(istream& is, File_to_Write& file_write) {
+	is >> file_write.can_to_write;
+	is >> file_write.count_of_symbol;
+	return is;
+}
+
+
+class File_for_Read_and_Write : public File_for_Read, public File_to_Write {
+protected:
+	string can_to_read_and_write;
+public:
+
+	File_for_Read_and_Write() : can_to_read_and_write("yes") {
+		cout << "File_for_Read_and_Write" << endl;
+
+	}
+	File_for_Read_and_Write(string can_to_read, string language_to_read,
+		string can_to_write, string conclude, int count_of_symbol)
+		: File_for_Read(can_to_read, language_to_read), File_to_Write(can_to_write, count_of_symbol),
+		can_to_read_and_write(conclude) {
+
+	}
+
+	string Get_File_for_Read_and_Write() { return can_to_read_and_write; }
+	void Set_File_for_Read_and_Write(string read_write) { can_to_read_and_write = read_write; }
+
+	void Read_Write_Print() { 
+		cout << "This file ready to start readt and write ? " << 
+		can_to_read_and_write << endl; 
+	}
+
+	friend ostream& operator <<(ostream& os, File_for_Read_and_Write& read_write);
+	friend istream& operator >>(istream& is, File_for_Read_and_Write& read_write);
+};
+ostream& operator <<(ostream& os, File_for_Read_and_Write& read_write) {
+	os << read_write.can_to_read_and_write << endl;
+	return os;
+}
+
+istream& operator >>(istream& is, File_for_Read_and_Write& read_write) {
+	is >> read_write.can_to_read_and_write;
+	return is;
+}
+
+
+int main () {
+
+	File_for_Read_and_Write read_and_write;
+
+	File_for_Read_and_Write read_and_write_param("Yes", "Polska", "NO", "No", 200);
+
+	File_for_Read_and_Write* arr = new File_for_Read_and_Write();
+	arr->SetName("myFile");
+	arr->SetFile_ectension(".txt");
+	arr->SetCan_to_read("Yes");
+	arr->SetLanguage_to_read("Polska");
+	arr->Set_to_Write("Yes");
+	arr->Set_Symbol(100);
+	arr->Set_File_for_Read_and_Write("Yes");
+
+	cout << endl;
+
+	arr->File_Print();
+	arr->Read_Print();
+	arr->Print_Write();
+	arr->Read_Write_Print();
+
+
+	return 0;
+}
+
+-----------------------------------------------------------------------------------------------------------

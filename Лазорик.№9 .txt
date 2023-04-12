@@ -1,0 +1,43 @@
+1.
+    vector<int> L = {1, 2, -3, 4, -5, 6, 7, -8};
+
+    auto neg_it = std::find_if(L.begin(), L.end(), [](int x){ return x < 0; });
+    L.insert(neg_it + 1, 0);
+
+    auto pos_it = std::find_if(L.rbegin(), L.rend(), [](int x){ return x > 0; });
+    L.insert(pos_it.base(), 0);
+
+    
+    for (int x : L) {
+        cout << x << ' ';
+    }
+    cout << endl;
+
+
+2.
+    string name = "myFile.txt";
+    vector<int> V = { 1, 2, 3, 4, 5, 6 };
+
+    auto mid = V.begin() + V.size() / 2;
+    vector<int> first_half(V.begin(), mid);
+    vector<int> second_half(mid, V.end());
+
+    set<int, greater<int>> first_set(first_half.begin(), first_half.end());
+    set<int, greater<int>> second_set(second_half.begin(), second_half.end());
+
+    set<int, greater<int>> result_set;
+    set_difference(second_set.begin(), second_set.end(),
+        first_set.begin(), first_set.end(),
+        inserter(result_set, result_set.begin()));
+
+    ofstream output_file(name);
+    if (output_file.is_open()) {
+        copy(result_set.begin(), result_set.end(),
+            ostream_iterator<int>(output_file, "\n"));
+        output_file.close();
+        cout << "DONE" << name << endl;
+    }
+    else {
+        cerr << "MISTAKE" << name << endl;
+    }
+
